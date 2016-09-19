@@ -1,42 +1,22 @@
-jetbrains-wakatime
-==================
+jetbrains-deckard
+=================
 
-Metrics, insights, and time tracking automatically generated from your programming activity.
-
+Send events to the Deckard app. Deckard will show useful information and pointers while you are working.
 
 Installation
 ------------
 
-1. Inside your IDE, select `Preferences` -> `Plugins` -> `Browse Repositories...`.
+1. Inside your IDE, select Preferences -> Plugins -> Browse Repositories....
 
-2. Search for `WakaTime`.
-   
-3. Click the green `Install Plugin` button.
+2. Search for deckard.
 
-4. Click `Close` and `OK`, then Re-launch your IDE.
+3. Click the green Install Plugin button and confirm the installation.
 
-5. Enter your [api key](https://wakatime.com/settings#apikey) in `Tools -> WakaTime API Key`, then click `Save`.
+4. Re-launch your IDE.
 
-6. Use your IDE like you normally do and your time will be tracked for you automatically.
+5. Start the Deckard app from <a href="https://deckard.ai/">deckard.ai</a>.
 
-7. Visit https://wakatime.com to see your logged time.
+6. Double-click on code, or use Cmd+D or Ctrl-D to refresh the content shown in Deckard.
 
-
-Screen Shots
-------------
-
-![Project Overview](https://wakatime.com/static/img/ScreenShots/Screen-Shot-2016-03-21.png)
-
-
-Configuring
------------
-
-WakaTime for Jetbrains IDE's can be configured via Tools -> WakaTime Settings.
-
-For more settings, WakaTime plugins share a common config file `.wakatime.cfg` located in your user home directory with [these options](https://github.com/wakatime/wakatime#configuring) available.
-
-
-Uninstalling
-------------
-
-Inside your IDE, select `Preferences` -> `Plugins`, then find the `WakaTime` plugin. Click `Uninstall`. Then delete your `~/.wakatime.cfg` config file.
+7. Switch to Deckard with Cmd+Tab or Alt-Tab, and click on links, or
+use the up and down arrows to navigate easily around your project.
