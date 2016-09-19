@@ -1,15 +1,3 @@
-WakaTime is written and maintained by Alan Hamlett and
-various contributors:
+Written by Aurélien Nicolas for Deckard.ai, SoCrowd GmbH.
 
-
-Development Lead
-----------------
-
-- Alan Hamlett <alan.hamlett@gmail.com>
-
-
-Patches and Suggestions
------------------------
-
-- Aleksey Zhukov <drdaeman@drdaeman.pp.ru>
-- Liam Costello <liam@scondoo.de>
+Based on the WakaTime plugin written by Alan Hamlett.
