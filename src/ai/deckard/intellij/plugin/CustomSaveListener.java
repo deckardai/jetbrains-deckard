@@ -1,12 +1,12 @@
 /* ==========================================================
 File:        CustomSaveListener.java
-Description: Sends a heartbeat when a file is saved.
-Maintainer:  WakaTime <support@wakatime.com>
+Description: Deckard connector for JetBrains IDEs.
+Maintainer:  Deckard <support@deckard.ai>
 License:     BSD, see LICENSE for more details.
-Website:     https://wakatime.com/
+Website:     https://www.deckard.ai/
 ===========================================================*/
 
-package com.wakatime.intellij.plugin;
+package ai.deckard.intellij.plugin;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -19,9 +19,6 @@ public class CustomSaveListener extends FileDocumentManagerAdapter {
     @Override
     public void beforeDocumentSaving(Document document) {
         String currentFile = FileDocumentManager.getInstance().getFile(document).getPath();
-        if (WakaTime.shouldLogFile(currentFile)) {
-            BigDecimal currentTime = WakaTime.getCurrentTimestamp();
-            WakaTime.appendHeartbeat(currentTime, currentFile, true);
-        }
+        Deckard.log(currentFile)
     }
 }

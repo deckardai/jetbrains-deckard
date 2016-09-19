@@ -1,12 +1,12 @@
 /* ==========================================================
 File:        CustomDocumentListener.java
-Description: Logs time from document change events.
-Maintainer:  WakaTime <support@wakatime.com>
+Description: Deckard connector for JetBrains IDEs.
+Maintainer:  Deckard <support@deckard.ai>
 License:     BSD, see LICENSE for more details.
-Website:     https://wakatime.com/
+Website:     https://www.deckard.ai/
 ===========================================================*/
 
-package com.wakatime.intellij.plugin;
+package ai.deckard.intellij.plugin;
 
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
@@ -26,12 +26,7 @@ public class CustomDocumentListener implements DocumentListener {
         final VirtualFile file = instance.getFile(documentEvent.getDocument());
         if (file != null && !file.getUrl().startsWith("mock://")) {
             final String currentFile = file.getPath();
-            if (WakaTime.shouldLogFile(currentFile)) {
-                BigDecimal currentTime = WakaTime.getCurrentTimestamp();
-                if (!currentFile.equals(WakaTime.lastFile) || WakaTime.enoughTimePassed(currentTime)) {
-                    WakaTime.appendHeartbeat(currentTime, currentFile, false);
-                }
-            }
+            Deckard.log(currentFile)
         }
     }
 }

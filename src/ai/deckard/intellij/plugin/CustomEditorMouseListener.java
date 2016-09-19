@@ -1,12 +1,12 @@
 /* ==========================================================
 File:        CustomEditorMouseListener.java
-Description: Logs time from mouse click events.
-Maintainer:  WakaTime <support@wakatime.com>
+Description: Deckard connector for JetBrains IDEs.
+Maintainer:  Deckard <support@deckard.ai>
 License:     BSD, see LICENSE for more details.
-Website:     https://wakatime.com/
+Website:     https://www.deckard.ai/
 ===========================================================*/
 
-package com.wakatime.intellij.plugin;
+package ai.deckard.intellij.plugin;
 
 import com.intellij.openapi.editor.event.EditorMouseEvent;
 import com.intellij.openapi.editor.event.EditorMouseListener;
@@ -22,12 +22,7 @@ public class CustomEditorMouseListener  implements EditorMouseListener {
         final VirtualFile file = instance.getFile(editorMouseEvent.getEditor().getDocument());
         if (file != null && !file.getUrl().startsWith("mock://")) {
             final String currentFile = file.getPath();
-            if (WakaTime.shouldLogFile(currentFile)) {
-                BigDecimal currentTime = WakaTime.getCurrentTimestamp();
-                if (!currentFile.equals(WakaTime.lastFile) || WakaTime.enoughTimePassed(currentTime)) {
-                    WakaTime.appendHeartbeat(currentTime, currentFile, false);
-                }
-            }
+            Deckard.log(currentFile)
         }
     }
 

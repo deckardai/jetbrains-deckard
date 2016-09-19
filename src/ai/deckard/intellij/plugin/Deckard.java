@@ -1,12 +1,12 @@
 /* ==========================================================
-File:        WakaTime.java
-Description: Automatic time tracking for JetBrains IDEs.
-Maintainer:  WakaTime <support@wakatime.com>
+File:        Deckard.java
+Description: Deckard connector for JetBrains IDEs.
+Maintainer:  Deckard <support@deckard.ai>
 License:     BSD, see LICENSE for more details.
-Website:     https://wakatime.com/
+Website:     https://www.deckard.ai/
 ===========================================================*/
 
-package com.wakatime.intellij.plugin;
+package ai.deckard.intellij.plugin;
 
 import com.intellij.AppTopics;
 import com.intellij.ide.DataManager;
@@ -71,7 +71,6 @@ public class Deckard implements ApplicationComponent {
         IDE_NAME = PlatformUtils.getPlatformPrefix();
         IDE_VERSION = ApplicationInfo.getInstance().getFullVersion();
 
-        setupDebugging();
         setLoggingLevel();
 
         setupEventListeners();
@@ -92,9 +91,6 @@ public class Deckard implements ApplicationComponent {
 
                 // mouse press
                 EditorFactory.getInstance().getEventMulticaster().addEditorMouseListener(new CustomEditorMouseListener());
-
-                // scroll document
-                EditorFactory.getInstance().getEventMulticaster().addVisibleAreaListener(new CustomVisibleAreaListener());
             }
         });
     }
@@ -168,78 +164,15 @@ public class Deckard implements ApplicationComponent {
         return escaped.toString();
     }
 
-    private static String[] buildCliCommand(Heartbeat heartbeat, ArrayList<Heartbeat> extraHeartbeats) {
-        ArrayList<String> cmds = new ArrayList<String>();
-        cmds.add(Dependencies.getPythonLocation());
-        cmds.add(Dependencies.getCLILocation());
-        cmds.add("--entity");
-        cmds.add(heartbeat.entity);
-        cmds.add("--time");
-        cmds.add(heartbeat.timestamp.toPlainString());
-        cmds.add("--key");
-        cmds.add(ApiKey.getApiKey());
-        if (heartbeat.project != null) {
-            cmds.add("--project");
-            cmds.add(heartbeat.project);
-        }
-        cmds.add("--plugin");
-        cmds.add(IDE_NAME+"/"+IDE_VERSION+" "+IDE_NAME+"-wakatime/"+VERSION);
-        if (heartbeat.isWrite)
-            cmds.add("--write");
-        if (extraHeartbeats.size() > 0)
-            cmds.add("--extra-heartbeats");
-        return cmds.toArray(new String[cmds.size()]);
-    }
-
-    private static String getProjectName() {
-        DataContext dataContext = DataManager.getInstance().getDataContext();
-        if (dataContext != null) {
-            Project project = null;
-
-            try {
-                project = PlatformDataKeys.PROJECT.getData(dataContext);
-            } catch (NoClassDefFoundError e) {
-                try {
-                    project = DataKeys.PROJECT.getData(dataContext);
-                } catch (NoClassDefFoundError ex) { }
-            }
-            if (project != null) {
-                lastProject = project.getName();
-                return lastProject;
-            }
-        }
-
-        if (lastProject != null) {
-            return lastProject;
-        } else {
-            return null;
-        }
-    }
-
-    public static boolean enoughTimePassed(BigDecimal currentTime) {
-        return WakaTime.lastTime.add(FREQUENCY).compareTo(currentTime) < 0;
-    }
-
-    public static boolean shouldLogFile(String file) {
-        if (file.equals("atlassian-ide-plugin.xml") || file.contains("/.idea/workspace.xml")) {
-            return false;
-        }
-        return true;
-    }
-
-    public static void setupDebugging() {
-        String debug = ConfigFile.get("settings", "debug");
-        WakaTime.DEBUG = debug != null && debug.trim().equals("true");
-    }
-
     public static void setLoggingLevel() {
-        if (WakaTime.DEBUG) {
+        if (Deckard.DEBUG) {
             log.setLevel(Level.DEBUG);
             log.debug("Logging level set to DEBUG");
         } else {
             log.setLevel(Level.INFO);
         }
     }
+
     @NotNull
     public String getComponentName() {
         return "Deckard";
