@@ -58,7 +58,6 @@ public class Deckard implements ApplicationComponent {
     private static String lastProject = null;
 
     private final int queueTimeoutSeconds = 10;
-    private static ConcurrentLinkedQueue<Heartbeat> heartbeatsQueue = new ConcurrentLinkedQueue<Heartbeat>();
     private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public Deckard() {
@@ -105,30 +104,9 @@ public class Deckard implements ApplicationComponent {
         return new BigDecimal(String.valueOf(System.currentTimeMillis() / 1000.0)).setScale(4, BigDecimal.ROUND_HALF_UP);
     }
 
-    private static String toJSON(ArrayList<Heartbeat> extraHeartbeats) {
+    private static String toJSON() {
         StringBuffer json = new StringBuffer();
-        json.append("[");
-        boolean first = true;
-        for (Heartbeat heartbeat : extraHeartbeats) {
-            StringBuffer h = new StringBuffer();
-            h.append("{\"entity\":\"");
-            h.append(jsonEscape(heartbeat.entity));
-            h.append("\",\"timestamp\":");
-            h.append(heartbeat.timestamp.toPlainString());
-            h.append(",\"is_write\":");
-            h.append(heartbeat.isWrite.toString());
-            if (heartbeat.project != null) {
-                h.append(",\"project\":\"");
-                h.append(jsonEscape(heartbeat.project));
-                h.append("\"");
-            }
-            h.append("}");
-            if (!first)
-                json.append(",");
-            json.append(h.toString());
-            first = false;
-        }
-        json.append("]");
+        json.append("{}");
         return json.toString();
     }
 

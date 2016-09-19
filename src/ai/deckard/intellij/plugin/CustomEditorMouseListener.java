@@ -22,7 +22,7 @@ public class CustomEditorMouseListener  implements EditorMouseListener {
         final VirtualFile file = instance.getFile(editorMouseEvent.getEditor().getDocument());
         if (file != null && !file.getUrl().startsWith("mock://")) {
             final String currentFile = file.getPath();
-            Deckard.log(currentFile)
+            Deckard.log.info(currentFile);
         }
     }
 

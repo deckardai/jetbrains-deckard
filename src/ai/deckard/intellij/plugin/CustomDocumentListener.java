@@ -13,7 +13,6 @@ import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.vfs.VirtualFile;
 
-import java.math.BigDecimal;
 
 public class CustomDocumentListener implements DocumentListener {
     @Override
@@ -26,7 +25,7 @@ public class CustomDocumentListener implements DocumentListener {
         final VirtualFile file = instance.getFile(documentEvent.getDocument());
         if (file != null && !file.getUrl().startsWith("mock://")) {
             final String currentFile = file.getPath();
-            Deckard.log(currentFile)
+            Deckard.log.info(currentFile);
         }
     }
 }

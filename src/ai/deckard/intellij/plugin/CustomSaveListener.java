@@ -19,6 +19,6 @@ public class CustomSaveListener extends FileDocumentManagerAdapter {
     @Override
     public void beforeDocumentSaving(Document document) {
         String currentFile = FileDocumentManager.getInstance().getFile(document).getPath();
-        Deckard.log(currentFile)
+        Deckard.log.info(currentFile);
     }
 }
