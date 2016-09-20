@@ -9,14 +9,11 @@ Website:     https://www.deckard.ai/
 package ai.deckard.intellij.plugin;
 
 import com.intellij.openapi.editor.LogicalPosition;
-import com.intellij.openapi.editor.event.EditorMouseEvent;
-import com.intellij.openapi.editor.event.EditorMouseListener;
 import com.intellij.openapi.editor.event.SelectionEvent;
 import com.intellij.openapi.editor.event.SelectionListener;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.sun.org.apache.regexp.internal.RE;
 
 public class CustomSelectionListener implements SelectionListener {
 
