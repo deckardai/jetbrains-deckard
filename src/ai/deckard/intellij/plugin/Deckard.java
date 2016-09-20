@@ -52,7 +52,6 @@ public class Deckard implements ApplicationComponent {
 
     public static String IDE_NAME;
     public static String IDE_VERSION;
-    public static MessageBusConnection connection;
     public static Boolean DEBUG = false;
     public static Boolean READY = false;
     public static String lastFile = null;
@@ -84,25 +83,11 @@ public class Deckard implements ApplicationComponent {
 
                 // Selection
                 EditorFactory.getInstance().getEventMulticaster().addSelectionListener(new CustomSelectionListener());
-
-                // save file
-                MessageBus bus = ApplicationManager.getApplication().getMessageBus();
-                connection = bus.connect();
-                connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, new CustomSaveListener());
-
-                // edit document
-                EditorFactory.getInstance().getEventMulticaster().addDocumentListener(new CustomDocumentListener());
-
-                // mouse press
-                EditorFactory.getInstance().getEventMulticaster().addEditorMouseListener(new CustomEditorMouseListener());
             }
         });
     }
 
     public void disposeComponent() {
-        try {
-            connection.disconnect();
-        } catch(Exception e) { }
     }
 
     public static void setLoggingLevel() {
