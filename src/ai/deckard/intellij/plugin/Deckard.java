@@ -48,6 +48,8 @@ public class Deckard implements ApplicationComponent {
     public static final String VERSION = "7.0.9";
     public static final Logger log = Logger.getInstance("Deckard");
 
+    public static String backendUrl = "http://localhost:3325/";
+
     public static String IDE_NAME;
     public static String IDE_VERSION;
     public static MessageBusConnection connection;
@@ -79,6 +81,7 @@ public class Deckard implements ApplicationComponent {
     private void setupEventListeners() {
         ApplicationManager.getApplication().invokeLater(new Runnable(){
             public void run() {
+                EditorFactory.getInstance().getEventMulticaster().addSelectionListener(new CustomSelectionListener());
 
                 // save file
                 MessageBus bus = ApplicationManager.getApplication().getMessageBus();
@@ -102,44 +105,6 @@ public class Deckard implements ApplicationComponent {
 
     public static BigDecimal getCurrentTimestamp() {
         return new BigDecimal(String.valueOf(System.currentTimeMillis() / 1000.0)).setScale(4, BigDecimal.ROUND_HALF_UP);
-    }
-
-    private static String toJSON() {
-        StringBuffer json = new StringBuffer();
-        json.append("{}");
-        return json.toString();
-    }
-
-    private static String jsonEscape(String s) {
-        if (s == null)
-            return null;
-        StringBuffer escaped = new StringBuffer();
-        final int len = s.length();
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            switch(c) {
-                case '\\': escaped.append("\\\\"); break;
-                case '"': escaped.append("\\\""); break;
-                case '\b': escaped.append("\\b"); break;
-                case '\f': escaped.append("\\f"); break;
-                case '\n': escaped.append("\\n"); break;
-                case '\r': escaped.append("\\r"); break;
-                case '\t': escaped.append("\\t"); break;
-                default:
-                    boolean isUnicode = (c >= '\u0000' && c <= '\u001F') || (c >= '\u007F' && c <= '\u009F') || (c >= '\u2000' && c <= '\u20FF');
-                    if (isUnicode){
-                        escaped.append("\\u");
-                        String hex = Integer.toHexString(c);
-                        for (int k = 0; k < 4 - hex.length(); k++) {
-                            escaped.append('0');
-                        }
-                        escaped.append(hex.toUpperCase());
-                    } else {
-                        escaped.append(c);
-                    }
-            }
-        }
-        return escaped.toString();
     }
 
     public static void setLoggingLevel() {
