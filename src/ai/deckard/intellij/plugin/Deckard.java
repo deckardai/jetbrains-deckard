@@ -16,8 +16,8 @@ import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.util.PlatformUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import org.apache.log4j.Level;
 
@@ -32,8 +32,7 @@ public class Deckard implements ApplicationComponent {
     public static String IDE_VERSION;
     public static Boolean DEBUG = false;
 
-    private final int queueTimeoutSeconds = 10;
-    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    protected static ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public Deckard() {
     }

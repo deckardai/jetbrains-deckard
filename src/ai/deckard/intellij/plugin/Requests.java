@@ -45,7 +45,7 @@ public class Requests {
             rd.close();
             return response.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            Deckard.log.info(e.getMessage());
             return null;
         } finally {
             if (connection != null) {

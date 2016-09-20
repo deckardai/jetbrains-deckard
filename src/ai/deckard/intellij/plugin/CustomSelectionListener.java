@@ -47,26 +47,31 @@ public class CustomSelectionListener implements SelectionListener {
                 endOffset = startOffset + maxLength;
             }
 
-            LogicalPosition pos = selectionEvent.getEditor().offsetToLogicalPosition(startOffset);
-            LogicalPosition endPos = selectionEvent.getEditor().offsetToLogicalPosition(endOffset);
-            String text = selectionEvent.getEditor().getDocument().getText(range);
+            final LogicalPosition pos = selectionEvent.getEditor().offsetToLogicalPosition(startOffset);
+            final LogicalPosition endPos = selectionEvent.getEditor().offsetToLogicalPosition(endOffset);
+            final String text = selectionEvent.getEditor().getDocument().getText(range);
 
-            Requests.post(
-                "event",
-                "{\"path\":\"" +
-                    Requests.jsonEscape(file.getPath()) +
-                "\",\"lineno\":" +
-                    Integer.toString(pos.line) +
-                ",\"charno\":" +
-                    Integer.toString(pos.column) +
-                ",\"end\":{\"lineno\":" +
-                    Integer.toString(endPos.line) +
-                ",\"charno\":" +
-                    Integer.toString(endPos.column) +
-                "},\"text\":\"" +
-                    Requests.jsonEscape(text) +
-                "\",\"editor\":\"idea\"}"
-            );
+            Deckard.executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Requests.post(
+                        "event",
+                        "{\"path\":\"" +
+                            Requests.jsonEscape(file.getPath()) +
+                        "\",\"lineno\":" +
+                            Integer.toString(pos.line) +
+                        ",\"charno\":" +
+                            Integer.toString(pos.column) +
+                        ",\"end\":{\"lineno\":" +
+                            Integer.toString(endPos.line) +
+                        ",\"charno\":" +
+                            Integer.toString(endPos.column) +
+                        "},\"text\":\"" +
+                            Requests.jsonEscape(text) +
+                        "\",\"editor\":\"idea\"}"
+                    );
+                }
+            });
         }
     }
 }
