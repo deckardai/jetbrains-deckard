@@ -81,6 +81,8 @@ public class Deckard implements ApplicationComponent {
     private void setupEventListeners() {
         ApplicationManager.getApplication().invokeLater(new Runnable(){
             public void run() {
+
+                // Selection
                 EditorFactory.getInstance().getEventMulticaster().addSelectionListener(new CustomSelectionListener());
 
                 // save file
@@ -101,10 +103,6 @@ public class Deckard implements ApplicationComponent {
         try {
             connection.disconnect();
         } catch(Exception e) { }
-    }
-
-    public static BigDecimal getCurrentTimestamp() {
-        return new BigDecimal(String.valueOf(System.currentTimeMillis() / 1000.0)).setScale(4, BigDecimal.ROUND_HALF_UP);
     }
 
     public static void setLoggingLevel() {
