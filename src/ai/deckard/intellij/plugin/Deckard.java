@@ -26,7 +26,7 @@ import org.apache.log4j.Level;
 
 public class Deckard implements ApplicationComponent {
 
-    public static final String VERSION = "0.2.11";
+    public static final String VERSION = "0.2.12";
     public static final Logger log = Logger.getInstance("Deckard");
 
     public static String backendUrl = "http://localhost:3325/";
@@ -38,6 +38,17 @@ public class Deckard implements ApplicationComponent {
     public static MessageBusConnection busConnection;
     protected static ExecutorService executor = Executors.newSingleThreadExecutor();
 
+
+    public static String makeIdeName() {
+        if(PlatformUtils.isPyCharm()) {
+            return "pycharm";
+        }
+        if(PlatformUtils.isRubyMine()) {
+            return "rubymine";
+        }
+        return PlatformUtils.getPlatformPrefix().toLowerCase();
+    }
+
     public Deckard() {
     }
 
@@ -45,8 +56,9 @@ public class Deckard implements ApplicationComponent {
         log.info("Initializing Deckard plugin v" + VERSION + " (https://deckard.ai/)");
 
         // Set runtime constants
-        IDE_NAME = PlatformUtils.getPlatformPrefix().toLowerCase();
+        IDE_NAME = makeIdeName();
         IDE_VERSION = ApplicationInfo.getInstance().getFullVersion();
+        log.info("Editor name: " + IDE_NAME);
 
         setLoggingLevel();
 

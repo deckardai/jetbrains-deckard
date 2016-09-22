@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://deckard.ai">
     <id>ai.deckard.intellij.plugin</id>
     <name>Deckard</name>
-    <version>0.2.11</version>
+    <version>0.2.12</version>
     <vendor email="support@deckard.ai" url="https://deckard.ai">Deckard</vendor>
 
     <description><![CDATA[
