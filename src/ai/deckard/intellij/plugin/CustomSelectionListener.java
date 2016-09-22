@@ -68,7 +68,9 @@ public class CustomSelectionListener implements SelectionListener {
                             Integer.toString(endPos.column) +
                         "},\"text\":\"" +
                             Requests.jsonEscape(text) +
-                        "\",\"editor\":\"idea\"}"
+                        "\",\"editor\":\"" +
+                            Requests.jsonEscape(Deckard.IDE_NAME) +
+                        "\"}"
                     );
                 }
             });

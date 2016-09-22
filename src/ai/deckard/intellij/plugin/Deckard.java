@@ -45,7 +45,7 @@ public class Deckard implements ApplicationComponent {
         log.info("Initializing Deckard plugin v" + VERSION + " (https://deckard.ai/)");
 
         // Set runtime constants
-        IDE_NAME = PlatformUtils.getPlatformPrefix();
+        IDE_NAME = PlatformUtils.getPlatformPrefix().toLowerCase();
         IDE_VERSION = ApplicationInfo.getInstance().getFullVersion();
 
         setLoggingLevel();
