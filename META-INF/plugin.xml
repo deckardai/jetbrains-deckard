@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://deckard.ai">
     <id>ai.deckard.intellij.plugin</id>
     <name>Deckard</name>
-    <version>0.2.12</version>
+    <version>0.2.13</version>
     <vendor email="support@deckard.ai" url="https://deckard.ai">Deckard</vendor>
 
     <description><![CDATA[
@@ -27,10 +27,15 @@
     ]]></description>
 
     <change-notes><![CDATA[
-1.0.0 (2016-09-19)<br />
+0.2.12 (2016-09-19)<br />
 ++++++++++++++++++<br />
 <br />
 - Birth. Send selection events to Deckard.<br />
+<br />
+0.2.13 (2016-11-21)<br />
+++++++++++++++++++<br />
+<br />
+- Fix PluginMenu issues in Android Studio.<br />
 <br />
     ]]>
     </change-notes>
