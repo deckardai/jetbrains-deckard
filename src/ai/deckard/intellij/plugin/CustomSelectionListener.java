@@ -8,6 +8,8 @@ Website:     https://www.deckard.ai/
 
 package ai.deckard.intellij.plugin;
 
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.event.SelectionEvent;
 import com.intellij.openapi.editor.event.SelectionListener;
@@ -25,7 +27,10 @@ public class CustomSelectionListener implements SelectionListener {
     @Override
     public void selectionChanged(SelectionEvent selectionEvent) {
         final FileDocumentManager instance = FileDocumentManager.getInstance();
-        final VirtualFile file = instance.getFile(selectionEvent.getEditor().getDocument());
+        final Editor editor = selectionEvent.getEditor();
+        final Document document = editor.getDocument();
+
+        final VirtualFile file = instance.getFile(document);
         if (file != null && !file.getUrl().startsWith("mock://")) {
 
             final String currentFile = file.getPath();
@@ -43,13 +48,28 @@ public class CustomSelectionListener implements SelectionListener {
 
             int startOffset = range.getStartOffset();
             int endOffset = range.getEndOffset();
+
             if(endOffset - startOffset > maxLength) {
                 endOffset = startOffset + maxLength;
             }
 
-            final LogicalPosition pos = selectionEvent.getEditor().offsetToLogicalPosition(startOffset);
-            final LogicalPosition endPos = selectionEvent.getEditor().offsetToLogicalPosition(endOffset);
-            final String text = selectionEvent.getEditor().getDocument().getText(range);
+            final LogicalPosition pos = editor.offsetToLogicalPosition(startOffset);
+            final LogicalPosition endPos = editor.offsetToLogicalPosition(endOffset);
+            final String text = document.getText(range);
+
+            /* The logical position give us access to the column shown in the editor
+               which integrate a computation for 'tab' that we need to subtract.
+               Therefore, we compute in the following section this 'shift' */
+            int shift = 0;
+            CharSequence chars = document.getCharsSequence();
+            int tabSize = editor.getSettings().getTabSize(editor.getProject());
+            for (int i = document.getLineStartOffset(pos.line); i < startOffset; i++) {
+                char c = chars.charAt(i);
+                if (c == '\t') {
+                    shift += tabSize - 1;
+                }
+            }
+            final int tabShift = shift;
 
             Deckard.executor.execute(new Runnable() {
                 @Override
@@ -61,11 +81,11 @@ public class CustomSelectionListener implements SelectionListener {
                         "\",\"lineno\":" +
                             Integer.toString(pos.line) +
                         ",\"charno\":" +
-                            Integer.toString(pos.column) +
+                            Integer.toString(pos.column-tabShift) +
                         ",\"end\":{\"lineno\":" +
                             Integer.toString(endPos.line) +
                         ",\"charno\":" +
-                            Integer.toString(endPos.column) +
+                            Integer.toString(endPos.column-tabShift) +
                         "},\"text\":\"" +
                             Requests.jsonEscape(text) +
                         "\",\"editor\":\"" +
